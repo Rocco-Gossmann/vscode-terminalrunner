@@ -2,6 +2,10 @@
 
 A VSCode extension that helps you quickly launch and focus named terminals with predefined commands.
 
+## Demo
+
+https://github.com/user-attachments/assets/b0da67bc-8dbd-4325-9de3-d06d6644a342
+
 
 ## What it does
 
