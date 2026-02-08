@@ -1,0 +1,8 @@
+node_modules
+.opencode/skills
+out
+._*
+.DS_Store
+justfile
+terminalrunner-*.vsix
+workspace.tmux
