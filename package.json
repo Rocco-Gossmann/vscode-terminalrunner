@@ -2,7 +2,7 @@
   "name": "terminalrunner",
   "displayName": "Terminal Runner",
   "description": "A tool that helps VSCode to interact with its Terminal",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "publisher": "rocco-gossmann",
   "engines": {
     "vscode": "^1.74.0"
@@ -23,6 +23,12 @@
     "configuration": {
       "title": "Terminal Runner",
       "properties": {
+		"terminalrunner.openasdefault": {
+			"description": "if a Terminal does not have a `openas` prop, this gets used instead",
+ 			"type": "string",
+			"enum": [ "tab", "panel"],
+			"default": "panel"
+		},
         "terminalrunner.terminals": {
           "type": "object",
           "patternProperties": {
@@ -31,6 +37,7 @@
               "properties": {
                 "terminalName": { "type": "string" },
                 "startCommand": { "type": "string" },
+                "openas": { "type": "string", "enum": [ "tab", "panel"], "default": "panel" }
               },
               "required": [
                 "terminalName",
