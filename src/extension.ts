@@ -1,5 +1,4 @@
 import * as vscode from 'vscode';
-import * as process from 'process';
 
 // Define the configuration interface
 interface TerminalCommand {
@@ -36,6 +35,12 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 	}
 
+	vscode.window.onDidCloseTerminal(terminal => {
+		// NOTE: Micro$lop left a bug here, that makes it so, that this event does
+		// not fire, if the Terminal was opened as an Editor and Moved
+		console.log("closed", terminal?.name)
+	})
+
 }
 
 function activateTerminal(commandConfig: TerminalCommand): boolean {
@@ -45,8 +50,10 @@ function activateTerminal(commandConfig: TerminalCommand): boolean {
 	for (const terminal of terminals) {
 
 		if (terminal.name === commandConfig.terminalName) {
+
 			terminal.show();
 			return true;
+
 		}
 	}
 
@@ -60,7 +67,7 @@ function createNewTerminalWithName(commandConfig: TerminalCommand) {
 		location: (commandConfig.openas || openAs || "panel") == "tab" ? vscode.TerminalLocation.Editor : vscode.TerminalLocation.Panel
 	});
 
-	terminal.sendText(commandConfig.startCommand)
+	terminal.sendText(commandConfig.startCommand + " ; exit")
 
 	terminal.show();
 
