@@ -49,14 +49,13 @@ function activateTerminal(commandConfig: TerminalCommand): boolean {
 
 function createNewTerminalWithName(commandConfig: TerminalCommand) {
 
-	const startCommand = commandConfig.startCommand;
-	const shellArgs = startCommand.split(' ');
-
-	vscode.window.createTerminal({
+	const terminal = vscode.window.createTerminal({
 		name: commandConfig.terminalName,
-		shellPath: shellArgs.shift(),
-		shellArgs,
-	}).show();
+	});
+
+	terminal.sendText(commandConfig.startCommand)
+
+	terminal.show();
 
 }
 
