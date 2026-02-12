@@ -14,13 +14,13 @@ export function activate(context: vscode.ExtensionContext) {
 
 	const config = vscode.workspace.getConfiguration();
 
-	const terminalCommands: TerminalCommandConfig | undefined = config.get('terminalcommands');
+	const terminalCommands: TerminalCommandConfig | undefined = config.get('terminalrunner.terminals');
 
 	if (terminalCommands && typeof terminalCommands === 'object') {
 		// Process each terminal command
 		for (const [commandName, commandConfig] of Object.entries(terminalCommands)) {
 			// Register a command for each configured terminal command
-			context.subscriptions.push(vscode.commands.registerCommand(`terminalrunner.runCommand.${commandName}`, () => {
+			context.subscriptions.push(vscode.commands.registerCommand(`terminalrunner.run.${commandName}`, async () => {
 
 				if(!activateTerminal(commandConfig))
 					createNewTerminalWithName(commandConfig)

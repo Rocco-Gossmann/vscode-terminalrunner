@@ -19,23 +19,18 @@
   ],
   "main": "./out/extension.js",
   "contributes": {
-    "commands": [
-    ],
+    "commands": [ ],
     "configuration": {
       "title": "Terminal Runner",
       "properties": {
-        "terminalcommands": {
+        "terminalrunner.terminals": {
           "type": "object",
           "patternProperties": {
             ".*": {
               "type": "object",
               "properties": {
-                "terminalName": {
-                  "type": "string"
-                },
-                "startCommand": {
-                  "type": "string"
-                }
+                "terminalName": { "type": "string" },
+                "startCommand": { "type": "string" },
               },
               "required": [
                 "terminalName",
