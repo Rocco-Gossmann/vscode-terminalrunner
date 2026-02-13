@@ -4,7 +4,7 @@ A VSCode extension that helps you quickly launch and focus named terminals with 
 
 ## Demo
 
-[DemoVideo](./.assets/demo.mp4)
+https://github.com/user-attachments/assets/be05541e-6891-4af7-bdd5-87c68b2a376b
 
 ## What it does
 
