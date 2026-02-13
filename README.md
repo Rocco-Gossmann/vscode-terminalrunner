@@ -4,8 +4,7 @@ A VSCode extension that helps you quickly launch and focus named terminals with 
 
 ## Demo
 
-https://github.com/user-attachments/assets/b0da67bc-8dbd-4325-9de3-d06d6644a342
-
+[DemoVideo](./.assets/demo.mp4)
 
 ## What it does
 
@@ -22,18 +21,26 @@ Add your terminal configurations to your VSCode `settings.json` under the `termi
 
 ```json
 {
-  "terminalcommands": {
+
+  "terminalrunner.openasdefault": "tab", // <-- if you don't define the
+                                         //     `openas` propperty in a terminalrunner.terminal
+                                         //     this value get's used
+
+  "terminalrunner.terminals": {
     "devserver": { // <-- the command name (translates to `terminalrunner.runCommand.devserver)
       "terminalName": "Dev Server",  // <-- the created terminal will be renamed to this
-      "startCommand": "npm run dev" // <-- the shell/bash/zsh/... command to run, when the terminal is freshly openend
+      "startCommand": "npm run dev", // <-- this is the command, that is send to the default-shell
+                                     //     inside the terminal
+      "openas": "panel"  // <-- you can decide for each termina, if it runs in the Editor( as a `tab` )
+                         //     or in the Terminal- `panel` (usually at the bottom)
     },
     "logs": {
       "terminalName": "Logs",
-      "startCommand": "tail -f /var/log/app.log"
+      "startCommand": "tail -f /var/log/app.log",
     },
     "build": {
       "terminalName": "Build",
-      "startCommand": "npm run build -- --watch"
+      "startCommand": "npm run build -- --watch",
     }
   }
 }
@@ -45,6 +52,7 @@ Add your terminal configurations to your VSCode `settings.json` under the `termi
 Each configuration requires:
 - `terminalName` (string): The display name for the terminal
 - `startCommand` (string): The shell command to execute when creating the terminal
+- `openas` (string): either `panel` or `tab`
 
 ## Usage with Keyboard Shortcuts
 
@@ -60,15 +68,15 @@ Ctrl+Space => l =>  d,l or b
 ```json
 [
   {
-    "command": "terminalrunner.runCommand.devserver",
+    "command": "terminalrunner.run.devserver",
     "key": "ctrl+space l d"
   },
   {
-    "command": "terminalrunner.runCommand.logs",
+    "command": "terminalrunner.run.logs",
     "key": "ctrl+space l l"
   },
   {
-    "command": "terminalrunner.runCommand.build",
+    "command": "terminalrunner.run.build",
     "key": "ctrl+space l b"
   }
 ]
@@ -78,7 +86,7 @@ Ctrl+Space => l =>  d,l or b
 
 ## LLM-Disclaimer:
 
-This project was written with the help of an LLM. (GLM-4.7-Flash to be exact).
+This project was partially written with the help of an LLM. (GLM-4.7-Flash to be exact).
 Reason being, that I just want to make the Use of VSCode a bit more bearable for
 my personal, very Terminal based workflows.
 Yet, I don't want to deal with that mess, that Micro$oft calls an API-Documentation.
