@@ -4,5 +4,8 @@ out
 ._*
 .DS_Store
 justfile
+Makefile
 terminalrunner-*.vsix
 workspace.tmux
+*.mlt
+releases

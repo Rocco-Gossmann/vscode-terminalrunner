@@ -41,8 +41,18 @@ Add your terminal configurations to your VSCode `settings.json` under the `termi
     "build": {
       "terminalName": "Build",
       "startCommand": "npm run build -- --watch",
-    }
+    },
+
+	// This one opens a terminal with neovim opening the currently
+	// edited file and navigating to the currently focused line.
+	"neovim": {
+		"terminalName": "Edit in NeoVim",
+		"startCommand": "neovim ${file} +${line}",
+		"openas": "tab"
+	}
+
   }
+
 }
 ```
 
@@ -52,7 +62,16 @@ Add your terminal configurations to your VSCode `settings.json` under the `termi
 Each configuration requires:
 - `terminalName` (string): The display name for the terminal
 - `startCommand` (string): The shell command to execute when creating the terminal
+
+Optional configuration properties:
 - `openas` (string): either `panel` or `tab`
+
+### Variables for Start-Commands.
+you can use the follosing variables to pass information from VSCode to the Terminal.
+
+- `${file}` (string) - the currently opened Filename
+- `${line}` (number) - the line number, that the active cursor is on.
+
 
 ## Usage with Keyboard Shortcuts
 
@@ -78,6 +97,10 @@ Ctrl+Space => l =>  d,l or b
   {
     "command": "terminalrunner.run.build",
     "key": "ctrl+space l b"
+  }
+  {
+    "command": "terminalrunner.run.neovim",
+    "key": "ctrl+space l v"
   }
 ]
 ```

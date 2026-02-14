@@ -21,6 +21,7 @@ export function activate(context: vscode.ExtensionContext) {
 	openAs = config.get('terminalrunner.openasdefault') || "panel";
 
 	if (terminalCommands && typeof terminalCommands === 'object') {
+
 		// Process each terminal command
 		for (const [commandName, commandConfig] of Object.entries(terminalCommands)) {
 			// Register a command for each configured terminal command
@@ -38,6 +39,8 @@ export function activate(context: vscode.ExtensionContext) {
 	vscode.window.onDidCloseTerminal(terminal => {
 		// NOTE: Micro$lop left a bug here, that makes it so, that this event does
 		// not fire, if the Terminal was opened as an Editor and Moved
+		// so if the tab is closed, the command it is running is not told to
+		// shutdown either.
 		console.log("closed", terminal?.name)
 	})
 
@@ -67,7 +70,11 @@ function createNewTerminalWithName(commandConfig: TerminalCommand) {
 		location: (commandConfig.openas || openAs || "panel") == "tab" ? vscode.TerminalLocation.Editor : vscode.TerminalLocation.Panel
 	});
 
-	terminal.sendText(commandConfig.startCommand + " ; exit")
+	let startCommand = commandConfig.startCommand
+		.replace( /\$\{file\}/g, `"${vscode.window.activeTextEditor?.document?.fileName || ""}"` )
+		.replace( /\$\{line\}/g, `${(vscode.window.activeTextEditor?.selection?.active?.line||0) + 1}` );
+
+	terminal.sendText(startCommand + " ; exit")
 
 	terminal.show();
 
