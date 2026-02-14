@@ -2,7 +2,7 @@
   "name": "terminalrunner",
   "displayName": "Terminal Runner",
   "description": "A tool that helps VSCode to interact with its Terminal",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "publisher": "rocco-gossmann",
   "engines": {
     "vscode": "^1.74.0"

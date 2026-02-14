@@ -27,7 +27,7 @@ export function activate(context: vscode.ExtensionContext) {
 			// Register a command for each configured terminal command
 			context.subscriptions.push(vscode.commands.registerCommand(`terminalrunner.run.${commandName}`, async () => {
 
-				if(!activateTerminal(commandConfig))
+				if(!await activateTerminal(commandConfig))
 					createNewTerminalWithName(commandConfig)
 
 				return
@@ -41,12 +41,16 @@ export function activate(context: vscode.ExtensionContext) {
 		// not fire, if the Terminal was opened as an Editor and Moved
 		// so if the tab is closed, the command it is running is not told to
 		// shutdown either.
+
+		// TODO: if Micro$oft decides to fix this bug, we can use this to savely end the
+		// process running inside the closed terminal.
+		// until then, this function is useless
 		console.log("closed", terminal?.name)
 	})
 
 }
 
-function activateTerminal(commandConfig: TerminalCommand): boolean {
+async function activateTerminal(commandConfig: TerminalCommand): Promise<boolean> {
 
 	// Check if a terminal with the same name is already active
 	const terminals = vscode.window.terminals;
@@ -54,10 +58,28 @@ function activateTerminal(commandConfig: TerminalCommand): boolean {
 
 		if (terminal.name === commandConfig.terminalName) {
 
-			terminal.show();
-			return true;
+			try {
+
+				const processId = await terminal.processId
+
+				console.log(process.kill(processId||-1, 0));
+				return true;
+
+			}
+			catch {
+
+				// fix your 💩 Micro$oft !!!
+				// terminated terminals should not get stuck in this array, yet they are (if their Editors where moved)
+				// Hence, why over time the "terminals" array will become filled with
+				// unusable dispoed instances of terminals.
+				terminal.dispose();
+
+				continue;
+
+			}
 
 		}
+
 	}
 
 	return false;
