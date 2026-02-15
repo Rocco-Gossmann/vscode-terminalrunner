@@ -45,6 +45,8 @@ export function activate(context: vscode.ExtensionContext) {
 		// TODO: if Micro$oft decides to fix this bug, we can use this to savely end the
 		// process running inside the closed terminal.
 		// until then, this function is useless
+		// https://github.com/microsoft/vscode/issues/206735
+
 		console.log("closed", terminal?.name)
 	})
 
@@ -62,16 +64,21 @@ async function activateTerminal(commandConfig: TerminalCommand): Promise<boolean
 
 				const processId = await terminal.processId
 
-				console.log(process.kill(processId||-1, 0));
+				// HACK: this should throw if the terminal is one of the broken ones
+				// The reason for why we need this:
+				// https://github.com/microsoft/vscode/issues/206735
+				// Sending signal `0` does not kill the process. it acts kind of like a dry-run.
+				process.kill(processId||-1, 0);
+
+				// if it does not fail, the terminal is Live and well.
 				return true;
 
 			}
 			catch {
 
-				// fix your 💩 Micro$oft !!!
-				// terminated terminals should not get stuck in this array, yet they are (if their Editors where moved)
-				// Hence, why over time the "terminals" array will become filled with
-				// unusable dispoed instances of terminals.
+				// FIXME: fix your 💩 Micro$oft !!!
+				// https://github.com/microsoft/vscode/issues/206735
+				// if this bug happens, the terminal is not cleared out of the terminals array
 				terminal.dispose();
 
 				continue;
