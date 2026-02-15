@@ -70,6 +70,8 @@ async function activateTerminal(commandConfig: TerminalCommand): Promise<boolean
 				// Sending signal `0` does not kill the process. it acts kind of like a dry-run.
 				process.kill(processId||-1, 0);
 
+				terminal.show();
+
 				// if it does not fail, the terminal is Live and well.
 				return true;
 
