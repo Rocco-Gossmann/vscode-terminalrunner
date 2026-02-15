@@ -47,7 +47,7 @@ Add your terminal configurations to your VSCode `settings.json` under the `termi
 	// edited file and navigating to the currently focused line.
 	"neovim": {
 		"terminalName": "Edit in NeoVim",
-		"startCommand": "neovim ${file} +${line}",
+		"startCommand": "nvim ${file} +${line}",
 		"openas": "tab"
 	}
 
