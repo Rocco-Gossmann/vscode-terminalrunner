@@ -17,7 +17,7 @@ When triggered, the extension will:
 
 ## Configuration
 
-Add your terminal configurations to your VSCode `settings.json` under the `terminalcommands` key:
+Add your terminal configurations to your VSCode `settings.json` under the `terminalrunner.terminals` key:
 
 ```json
 {
