@@ -79,7 +79,7 @@ This extension is designed to be used with **custom keyboard shortcuts**.
 After configuring your terminal commands, bind them to keys in your
 `keybindings.json`:
 
-The command format is: `terminalrunner.runCommand.<your-command-name>`
+The command format is: `terminalrunner.run.<your-command-name>`
 
 the following example would trigger after you enter the sequence.
 Ctrl+Space => l =>  d,l or b
